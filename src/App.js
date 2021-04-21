@@ -11,6 +11,8 @@ import InfoBox from "./Components/InfoBox/InfoBox";
 import axios from "axios";
 import Map from "./Components/Map/Map";
 import Table from "./Components/Table/Table";
+import { sortData } from "./util";
+import LineGraph from './Components/LineGraph/LineGraph'
 
 const App = () => {
   const [countries, setCountries] = useState([]);
@@ -29,7 +31,8 @@ const App = () => {
       await axios
         .get("https://disease.sh/v3/covid-19/countries")
         .then((response) => {
-          setTableData(response.data);
+          const sortedData = sortData(response.data);
+          setTableData(sortedData);
           setCountries(response.data);
         });
       // .then((data) => {
@@ -89,26 +92,38 @@ const App = () => {
         </div>
 
         <div className="app_stats">
-          <InfoBox title="Tests" cases={countryInfo.tests} />
-
-          <InfoBox title="active" cases={countryInfo.active} />
+          
 
           <InfoBox
+            style={{ backgroundColor: "#fed8b1" }}
+            title="active"
+            cases={countryInfo.active}
+          />
+
+          <InfoBox
+            style={{ backgroundColor: "#ffa500" }}
             title="coronavirus cases"
             cases={countryInfo.todayCases}
             total={countryInfo.cases}
           />
 
           <InfoBox
+            style={{ backgroundColor: "#90ee90" }}
             title="Recoveries"
             cases={countryInfo.todayRecovered}
             total={countryInfo.recovered}
           />
 
           <InfoBox
+            style={{ backgroundColor: "#8A0303" }}
             title="Deaths"
             cases={countryInfo.todayDeaths}
             total={countryInfo.deaths}
+          />
+          <InfoBox
+            style={{ backgroundColor: "#99DFB2" }}
+            title="Tests"
+            cases={countryInfo.tests}
           />
         </div>
 
@@ -117,10 +132,11 @@ const App = () => {
       <Card className="app_right">
         <CardContent>
           <h3>Live Cases by Country</h3>
-          {/* Table */}
+      {/* Table */}
           <Table countries={tableData} />
           <h3>Worldwide new cases</h3>
-          {/* Graph */}
+       {/* Graph */}
+       <LineGraph />
         </CardContent>
       </Card>
     </div>
