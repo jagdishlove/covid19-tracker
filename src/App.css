@@ -38,6 +38,20 @@ body{
   border-radius:10px;
   outline: none;
 }
+.app_right{
+  display: flex;
+  flex-direction: column;
+ 
+}
+.app_right .MuiCardContent-root{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  
+}
+.app_graph{
+  flex-grow: 1;
+}
 
 
 @media(max-width:990px){

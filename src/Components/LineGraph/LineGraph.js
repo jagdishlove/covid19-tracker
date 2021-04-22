@@ -18,7 +18,7 @@ const options = {
     intersect: false,
     callbacks: {
       label: function (tooltipItem, data) {
-        return numeral(tooltipItem.value).format("0a");
+        return numeral(tooltipItem.value).format("+0a");
       },
     },
   },
@@ -40,7 +40,7 @@ const options = {
         },
         ticks: {
           callback: function (value, index, values) {
-            return numeral(value).format("0,0a");
+            return numeral(value).format("0,0");
           },
         },
       },
@@ -66,7 +66,7 @@ const buildChartData = (data, casesType) => {
   return chartData;
 };
 
-function LineGraph({ casesType = "cases" }) {
+function LineGraph({ casesType = "cases",...props}) {
   const [data, setData] = useState({});
 
   useEffect(() => {
@@ -84,8 +84,8 @@ function LineGraph({ casesType = "cases" }) {
   }, [casesType]);
 
   return (
-    <div>
-      <h1>I am a graaph</h1>
+    <div className={props.className}>
+  <h2>World New Cases</h2><br/>
       {data?.length > 0 && (
         <Line
           options={options}

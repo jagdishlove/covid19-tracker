@@ -139,14 +139,14 @@ const App = () => {
         <Mapp countries={mapCountries} center={mapCenter} zoom={mapZoom} />
       </div>
       <Card className="app_right">
-        <CardContent>
+        <CardContent >
           <h3>Live Cases by Country</h3>
           {/* Table */}
           <Table countries={tableData} />
-          <h3>Worldwide new cases</h3>
+         
           {/* Graph */}
           <div className="graph">
-            <LineGraph />
+            <LineGraph  className="app_graph" />
           </div>
         </CardContent>
       </Card>
