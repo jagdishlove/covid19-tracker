@@ -146,7 +146,7 @@ const App = () => {
          
           {/* Graph */}
           <div className="graph">
-            <LineGraph  className="app_graph" />
+            <LineGraph />
           </div>
         </CardContent>
       </Card>
