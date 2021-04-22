@@ -9,17 +9,21 @@ import {
 import "./App.css";
 import InfoBox from "./Components/InfoBox/InfoBox";
 import axios from "axios";
-import Map from "./Components/Map/Map";
+import Mapp from "./Components/Map/Mapp";
 import Table from "./Components/Table/Table";
-import { sortData } from "./util";
-import LineGraph from './Components/LineGraph/LineGraph'
+import { sortData, prettyPrintStat } from "./util";
+import LineGraph from "./Components/LineGraph/LineGraph";
+import "leaflet/dist/leaflet.css";
 
 const App = () => {
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("Worldwide");
   const [countryInfo, setCountryInfo] = useState({});
   const [tableData, setTableData] = useState([]);
-
+  const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
+  const [mapZoom, setMapZoom] = useState(3);
+  const [mapCountries, setMapCountries] = useState([]);
+  const[casesType, setCasesType]=useState("cases")
   useEffect(() => {
     axios
       .get("https://disease.sh/v3/covid-19/all")
@@ -34,6 +38,7 @@ const App = () => {
           const sortedData = sortData(response.data);
           setTableData(sortedData);
           setCountries(response.data);
+          setMapCountries(response.data);
         });
       // .then((data) => {
       //   const countries = data.map((country) => ({
@@ -56,11 +61,17 @@ const App = () => {
         ? "https://disease.sh/v3/covid-19/all"
         : `https://disease.sh/v3/covid-19/countries/${countryCode}`;
 
-    await axios.get(url).then((response) => {
-      console.log(response.data);
-      setCountryInfo(response.data);
-      setCountry(countryCode);
-    });
+    await axios
+      .get(url)
+      .then((response) => response.data)
+      .then((data) => {
+        setCountry(countryCode);
+        setCountryInfo(data);
+        console.log(data.countryInfo);
+        setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
+        setMapZoom(4);
+      });
+
     // .then((data) => {
     //   setCountry(countryCode);
     //All of the data....
@@ -73,7 +84,7 @@ const App = () => {
     <div className="app">
       <div className="app_left">
         <div className="app_header">
-          <h1>Covid-19 TRACKER</h1>
+          <h1>COVID-19 TRACKER</h1>
           <FormControl className="app_dropdown">
             <Select
               variant="outlined"
@@ -92,51 +103,51 @@ const App = () => {
         </div>
 
         <div className="app_stats">
-          
-
           <InfoBox
             style={{ backgroundColor: "#fed8b1" }}
             title="active"
-            cases={countryInfo.active}
+            cases={prettyPrintStat(countryInfo.active)}
           />
 
           <InfoBox
             style={{ backgroundColor: "#ffa500" }}
             title="coronavirus cases"
-            cases={countryInfo.todayCases}
+            cases={prettyPrintStat(countryInfo.todayCases)}
             total={countryInfo.cases}
           />
 
           <InfoBox
             style={{ backgroundColor: "#90ee90" }}
             title="Recoveries"
-            cases={countryInfo.todayRecovered}
+            cases={prettyPrintStat(countryInfo.todayRecovered)}
             total={countryInfo.recovered}
           />
 
           <InfoBox
             style={{ backgroundColor: "#8A0303" }}
             title="Deaths"
-            cases={countryInfo.todayDeaths}
+            cases={prettyPrintStat(countryInfo.todayDeaths)}
             total={countryInfo.deaths}
           />
           <InfoBox
             style={{ backgroundColor: "#99DFB2" }}
             title="Tests"
-            cases={countryInfo.tests}
+            cases={prettyPrintStat(countryInfo.tests)}
           />
         </div>
 
-        <Map />
+        <Mapp countries={mapCountries} center={mapCenter} zoom={mapZoom} />
       </div>
       <Card className="app_right">
         <CardContent>
           <h3>Live Cases by Country</h3>
-      {/* Table */}
+          {/* Table */}
           <Table countries={tableData} />
           <h3>Worldwide new cases</h3>
-       {/* Graph */}
-       <LineGraph />
+          {/* Graph */}
+          <div className="graph">
+            <LineGraph />
+          </div>
         </CardContent>
       </Card>
     </div>

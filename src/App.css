@@ -28,6 +28,17 @@ body{
 }
 
 
+.app_dropdown{
+  background-color:white;
+  outline: none;
+}
+.app_dropdown:hover{
+  background-color:whitesmoke;
+ 
+  border-radius:10px;
+  outline: none;
+}
+
 
 @media(max-width:990px){
   .app{
@@ -41,4 +52,6 @@ body{
    
     
   }
+
+ 
 }

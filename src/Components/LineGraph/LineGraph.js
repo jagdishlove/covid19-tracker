@@ -18,7 +18,7 @@ const options = {
     intersect: false,
     callbacks: {
       label: function (tooltipItem, data) {
-        return numeral(tooltipItem.value).format("+0,0");
+        return numeral(tooltipItem.value).format("0a");
       },
     },
   },
@@ -27,9 +27,10 @@ const options = {
       {
         type: "time",
         time: {
-          format: "MM/DD/YY",
+          parser: "MM/DD/YY",
           tooltipFormat: "ll",
         },
+       
       },
     ],
     yAxes: [
@@ -39,7 +40,7 @@ const options = {
         },
         ticks: {
           callback: function (value, index, values) {
-            return numeral(value).format();
+            return numeral(value).format("0,0a");
           },
         },
       },
@@ -65,7 +66,7 @@ const buildChartData = (data, casesType) => {
   return chartData;
 };
 
-function LineGraph({casesType="cases"}) {
+function LineGraph({ casesType = "cases" }) {
   const [data, setData] = useState({});
 
   useEffect(() => {
@@ -74,7 +75,7 @@ function LineGraph({casesType="cases"}) {
         .get("https://disease.sh/v3/covid-19/historical/all?lastdays=120")
         .then((response) => response.data)
         .then((data) => {
-          let chartData = buildChartData(data,"cases");
+          let chartData = buildChartData(data, "cases");
           setData(chartData);
         });
     };
@@ -92,9 +93,9 @@ function LineGraph({casesType="cases"}) {
             datasets: [
               {
                 backgroundColor: "rgba(204, 16, 52, 0.5)",
-                
+
                 borderColor: "#CC1034",
-                borderWidth:1,
+                borderWidth: 1,
                 data: data,
               },
             ],
