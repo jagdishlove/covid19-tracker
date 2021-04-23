@@ -11,7 +11,7 @@ import InfoBox from "./Components/InfoBox/InfoBox";
 import axios from "axios";
 import Mapp from "./Components/Map/Mapp";
 import Table from "./Components/Table/Table";
-import { sortData, prettyPrintStat } from "./util";
+import { sortData, prettyPrintStat,prettyPrintStats } from "./util";
 import LineGraph from "./Components/LineGraph/LineGraph";
 import "leaflet/dist/leaflet.css";
 
@@ -106,7 +106,7 @@ const App = () => {
           <InfoBox
             style={{ backgroundColor: "#fed8b1" }}
             title="active"
-            cases={prettyPrintStat(countryInfo.active)}
+            cases={prettyPrintStats(countryInfo.active)}
           />
 
           <InfoBox
@@ -132,7 +132,7 @@ const App = () => {
           <InfoBox
             style={{ backgroundColor: "#99DFB2" }}
             title="Tests"
-            cases={prettyPrintStat(countryInfo.tests)}
+            cases={prettyPrintStats(countryInfo.tests)}
           />
         </div>
 
