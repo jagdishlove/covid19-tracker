@@ -12,7 +12,8 @@ const options = {
       radius: 0,
     },
   },
-  maintainAspectRatio: false,
+  maintainAspectRatio: true,
+  responsive:true,
   tooltips: {
     mode: "index",
     intersect: false,
@@ -84,7 +85,7 @@ function LineGraph({ casesType = "cases"}) {
   }, [casesType]);
 
   return (
-    <div>
+    <div className="canvas">
   <h2>World New Cases</h2><br/>
       {data?.length > 0 && (
         <Line
@@ -93,7 +94,6 @@ function LineGraph({ casesType = "cases"}) {
             datasets: [
               {
                 backgroundColor:"transparent",
-
                 borderColor: "#CC1034",
                 borderWidth: 1,
                 data: data,
